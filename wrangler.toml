@@ -2,4 +2,11 @@ name = "indoxxi21"
 main = "worker.js"
 compatibility_date = "2025-01-01"
 compatibility_flags = ["nodejs_compat"]
-workers_dev = true
+workers_dev = false
+
+# Sajikan Worker langsung di domain mirror (tanpa perlu workers.dev).
+# Syarat: zona "indoxxi21.net" sudah aktif di akun Cloudflare yang sama.
+routes = [
+  { pattern = "indoxxi21.net", custom_domain = true },
+  { pattern = "www.indoxxi21.net", custom_domain = true },
+]
