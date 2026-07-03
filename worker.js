@@ -534,12 +534,50 @@ html, body{overflow:auto !important;}
         ev.preventDefault(); ev.stopPropagation();
       }
     }, true);
+
+    // === HAPUS OVERLAY POPUP YANG DISUNTIKKAN JS (idmuvi-popup / gmr-bannerpopup) ===
+    var POPUP_SEL = '#idmuvi-popup, .gmr-bannerpopup, .gmr-bannerpopup-inner, .pop-bg, .popup-overlay, .modal-ads';
+    function killPopups(){
+      try{
+        var nodes = document.querySelectorAll(POPUP_SEL);
+        for(var i=0;i<nodes.length;i++){ if(nodes[i] && nodes[i].parentNode){ nodes[i].parentNode.removeChild(nodes[i]); } }
+        // Lepas kunci scroll yang biasa dipasang popup.
+        var de = document.documentElement, b = document.body;
+        if(b){ b.style.overflow='auto'; b.style.position='static'; b.classList.remove('no-scroll','modal-open','popup-open','stop-scrolling','noscroll'); }
+        if(de){ de.style.overflow='auto'; }
+      }catch(e){}
+    }
+    // Jalankan segera, saat DOM siap, dan berkala sebagai fallback.
+    killPopups();
+    document.addEventListener('DOMContentLoaded', killPopups);
+    window.addEventListener('load', killPopups);
+    var _t = setInterval(killPopups, 400);
+    setTimeout(function(){ clearInterval(_t); }, 15000);
+    // Pantau perubahan DOM: hapus popup begitu disuntikkan.
+    try{
+      var mo = new MutationObserver(function(muts){
+        for(var i=0;i<muts.length;i++){
+          var added = muts[i].addedNodes;
+          for(var j=0;j<added.length;j++){
+            var n = added[j];
+            if(n && n.nodeType===1){
+              if((n.id==='idmuvi-popup') || (n.className && String(n.className).indexOf('gmr-bannerpopup')>-1)){
+                if(n.parentNode) n.parentNode.removeChild(n);
+              } else if(n.querySelector && n.querySelector(POPUP_SEL)){
+                killPopups();
+              }
+            }
+          }
+        }
+      });
+      var start = function(){ if(document.body){ mo.observe(document.documentElement, {childList:true, subtree:true}); } else { setTimeout(start, 50); } };
+      start();
+    }catch(e){}
   }catch(e){}
 })();
 </script>`;
 
-  html = html.replace(/<\/head>/i, css + "\n</head>");
-  html = html.replace(/<\/body>/i, guard + "\n</body>");
+  html = html.replace(/<\/head>/i, css + "\n" + guard + "\n</head>");
   return html;
 }
 
