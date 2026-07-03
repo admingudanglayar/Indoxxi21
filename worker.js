@@ -440,67 +440,12 @@ function blockAds(html) {
 }
 
 // ============================================================================
-//  GLASSMORPHISM THEME + ANTI-POPUP GUARD
+//  ANTI-POPUP GUARD (UI dibiarkan original, tanpa modifikasi tema)
 // ============================================================================
 function injectTheme(html) {
   const css = `
-<style id="mirror-glass-theme">
-:root{
-  --glass-bg: rgba(255,255,255,0.08);
-  --glass-brd: rgba(255,255,255,0.18);
-  --glass-blur: 14px;
-  --accent: #7c5cff;
-  --accent2: #22d3ee;
-  --ink: #eef1ff;
-}
-html,body{background:#0b0f1a !important;color:var(--ink) !important;}
-body{
-  background:
-    radial-gradient(1200px 800px at 10% -10%, rgba(124,92,255,.25), transparent 60%),
-    radial-gradient(1000px 700px at 110% 10%, rgba(34,211,238,.18), transparent 55%),
-    #0b0f1a !important;
-}
-a{color:var(--accent2);}
-a:hover{color:#fff;}
-header, .main-header, #header, .site-header,
-.gmr-main-menu, #main-menu, nav, footer, #footer, .site-footer,
-.item, article, .content, #content, .widget, .gmr-box-content,
-.result-item, .gmr-item-modulepost, .homepostbox, .filterbox,
-.pagination, .search-form, form.search-form, .single .entry-content,
-.mvp-post-add-box, .video-player, .player-area, .gmr-embed-responsive{
-  background: var(--glass-bg) !important;
-  border: 1px solid var(--glass-brd) !important;
-  -webkit-backdrop-filter: blur(var(--glass-blur));
-  backdrop-filter: blur(var(--glass-blur));
-  border-radius: 16px !important;
-  box-shadow: 0 8px 32px rgba(0,0,0,.35) !important;
-}
-.gmr-embed-responsive, .video-player, iframe{
-  border-radius: 14px !important;
-}
-.item:hover, article:hover, .result-item:hover{
-  transform: translateY(-3px);
-  transition: transform .25s ease, box-shadow .25s ease;
-  box-shadow: 0 12px 40px rgba(124,92,255,.35) !important;
-}
-img{border-radius: 12px;}
-input, select, textarea, button{
-  background: rgba(255,255,255,.06) !important;
-  color: var(--ink) !important;
-  border: 1px solid var(--glass-brd) !important;
-  border-radius: 10px !important;
-}
-button, .button, .btn{
-  background: linear-gradient(135deg, var(--accent), var(--accent2)) !important;
-  border: none !important; color:#0b0f1a !important; font-weight:600;
-}
-::-webkit-scrollbar{width:10px;height:10px;}
-::-webkit-scrollbar-thumb{background:linear-gradient(var(--accent),var(--accent2));border-radius:20px;}
-::-webkit-scrollbar-track{background:#0b0f1a;}
-h1,h2,h3,.entry-title,.title{color:#fff !important;}
-/* Sisakan area player benar-benar bersih & fokus */
-#muvipro_player_content_id, .player-wrap, .gmr-server-wrap{background:transparent !important;}
-/* Paksa sembunyikan overlay/popup iklan yang menutupi layar */
+<style id="mirror-adclean">
+/* Hanya sembunyikan overlay/popup iklan yang menutupi layar. UI dibiarkan original. */
 #idmuvi-popup, .gmr-bannerpopup, .gmr-bannerpopup-inner,
 .pop-bg, .popup-overlay, .modal-ads, .adblock-overlay{
   display:none !important; visibility:hidden !important;
