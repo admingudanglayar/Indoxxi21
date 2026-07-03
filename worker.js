@@ -424,6 +424,18 @@ function blockAds(html) {
   );
   html = html.replace(linkRe, "");
 
+  // 7) Hapus overlay/popup banner yang menutupi layar (idmuvi-popup, gmr-bannerpopup, dll).
+  //    Ini BUKAN player, jadi aman dihapus total.
+  html = html.replace(
+    /<div\b[^>]*(?:id=["']idmuvi-popup["']|class=["'][^"']*gmr-bannerpopup[^"']*["'])[^>]*>[\s\S]*?<\/div>\s*<\/div>/gi,
+    ""
+  );
+  // Fallback: bila strukturnya hanya satu div pembungkus.
+  html = html.replace(
+    /<div\b[^>]*(?:id=["']idmuvi-popup["']|class=["'][^"']*gmr-bannerpopup[^"']*["'])[^>]*>[\s\S]*?<\/div>/gi,
+    ""
+  );
+
   return html;
 }
 
@@ -488,6 +500,15 @@ button, .button, .btn{
 h1,h2,h3,.entry-title,.title{color:#fff !important;}
 /* Sisakan area player benar-benar bersih & fokus */
 #muvipro_player_content_id, .player-wrap, .gmr-server-wrap{background:transparent !important;}
+/* Paksa sembunyikan overlay/popup iklan yang menutupi layar */
+#idmuvi-popup, .gmr-bannerpopup, .gmr-bannerpopup-inner,
+.pop-bg, .popup-overlay, .modal-ads, .adblock-overlay{
+  display:none !important; visibility:hidden !important;
+  opacity:0 !important; pointer-events:none !important;
+  width:0 !important; height:0 !important; z-index:-1 !important;
+}
+/* Pastikan halaman tetap bisa di-scroll bila popup mengunci body */
+html, body{overflow:auto !important;}
 </style>`;
 
   // Guard anti-popup: netralkan window.open dari iklan, tapi biarkan navigasi normal.
